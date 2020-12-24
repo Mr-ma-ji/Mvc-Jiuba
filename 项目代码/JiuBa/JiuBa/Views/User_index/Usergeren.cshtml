@@ -1,0 +1,59 @@
+﻿@model JiuBa.Models.Users
+
+@{
+    ViewBag.Title = "Usergeren";
+    Layout = "~/Views/_UserIndexLayout.cshtml";
+}
+	<div class="container">
+
+		<div class="col-lg-6" id="gerenxinxi">
+			<div class="container text-center">
+				<div class="form-group">
+					<img src="~/img/@Model.UserImg" class="img-thumbnail" width="90" id="userimg" />
+				</div>
+				<div class="form-group">
+					<label class="btn btn-success" for="File1">更换头像</label>
+					<input id="File1" type="file"  class="hidden" onchange="huanimg(this)"/>
+				</div>
+				<div class="form-group">
+					<lable>昵称:@Model.UserName</lable>
+				</div>
+				<div class="form-group">
+					<lable>性别:@Model.UserSex</lable>
+				</div>
+				<div class="form-group">
+					<a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">编辑个人信息</a>
+					@Html.Action("updatexinxi")
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript"> 
+	//修改头像
+	function huanimg(a) {
+		var file = a.files[0];
+		var fd = new FormData();
+		fd.append("file", file);
+		$.ajax({
+			url: "/User_index/updateImg",
+			type: "post",
+			data: fd,
+			processData: false,
+			contentType: false,
+			success: function (e) {
+				if (e != "上传失败") {
+					var rd = new FileReader();
+					rd.onload = function (c) {
+						$("#userimg").attr("src", c.target.result);
+					}
+					rd.readAsDataURL(file);
+					
+				} else {
+					alert(e);
+				}
+			}
+		});
+	}
+	//设置样式
+	$("#gerenzhongxin").attr("class","active");
+</script>

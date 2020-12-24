@@ -1,0 +1,45 @@
+﻿@model JiuBa.Models.Admins
+
+@{
+	ViewBag.Title = "添加管理员";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+<div class="container">
+	<div class="container-fluid">
+		<h1> 添加管理员<span class=" glyphicon glyphicon-pencil"> </span></h1>
+		<form action="/Admin/AddAdmin" method="post">
+			<div class="form-group">
+				<label>账号<span class="glyphicon glyphicon-user"></span></label>
+				@Html.TextBoxFor(x => x.AdminAccount, new { @placeholder = "请输入管理员账号", @class = "form-group form-control" })
+				@Html.ValidationMessageFor(x => x.AdminAccount)
+			</div>
+			<div class="form-group">
+				<label>密码<span class="glyphicon glyphicon-asterisk"></span></label>
+				@Html.TextBoxFor(x => x.AdminPwd, new { @placeholder = "请输入管理员密码", @type = "password", @class = "form-group form-control" })
+				@Html.ValidationMessageFor(x => x.AdminPwd)
+			</div>
+			<div class="form-group">
+				<input id="Submit1" type="submit" value="添加" class="btn btn-success form-control " />
+			</div>
+		</form>
+	</div>
+</div>
+<div class="container">
+	<h2>管理员账号管理<span class="glyphicon glyphicon-folder-open"></span></h2>
+	<div class="container-fluid">
+		@Html.Action("GetAdminTable", "Admin", "")
+	</div>
+</div>
+<script type="text/javascript">
+	//导航选中样式
+	$(".AdminAddAdmin").addClass("active");
+	//判断账号是否存在
+
+</script>
+@if (@ViewBag.AddAdmin != null)
+{
+	<script type="text/javascript">
+			alert("@ViewBag.AddAdmin");
+	</script>
+}

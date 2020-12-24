@@ -1,0 +1,57 @@
+﻿body {
+	margin:0;
+	padding:0;
+}
+#nva-bottom {
+	height:400px;
+	width:100%;
+}
+#nva-bottom-box {
+	padding:30px 0px;
+}
+.error {
+	color:red;
+
+}
+#gerenxinxi {
+	margin-top:100px;
+}
+#postex_content {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	/*white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	background: red;*/
+}
+#posimg_content {
+	overflow: auto;
+height:250px;
+}
+#username_text {
+	line-height: 30px;
+}
+.posimg_style {
+	box-shadow:2px 2px 5px 1px gray;
+	margin-top:10px;
+	border-radius:5px;
+}
+.user_model_img {
+	width:100%;
+
+}
+.user_model_box {
+	margin-top:10px;
+	box-shadow: 0px 0px 3px 1px gray;
+	border-radius: 10px;
+	box-shadow: 1px 1px 3px 1px gray;
+	overflow:hidden;
+}
+#huiding {
+	position:fixed;
+	bottom:30px;
+	right:30px;
+}

@@ -1,0 +1,104 @@
+﻿@model JiuBa.Models.Post
+
+@{
+	ViewBag.Title = "帖子详情";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+<div class="container">
+	<h3>帖子详情</h3>
+	<div class="panel panel-danger">
+		<div class="panel-heading">
+			<div class="pull-right" onclick="admin_remove(this,@Model.PostId)"><span class="glyphicon glyphicon-bookmark pull-right"></span>删除</div>
+			@Html.Action("GetUsersById", "UserPost", new { id = Model.UserId })
+		</div>
+		<div class="panel-body">
+			<div>
+				<div>@Model.PostText</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			@Html.Action("GetPostImgById", "UserPost", new { id = Model.PostId })
+		</div>
+
+		<div class="panel-footer">
+			<div class="container-fluid">
+				<label class="pull-left">
+					分类:
+					@Html.Action("GetModelById", "UserPost", new { id = Model.ModelId })
+					&nbsp;	&nbsp;	&nbsp;
+				</label>
+				<span class="pull-left">发布时间： @Model.PostTime</span>
+				<span class=" pull-right">
+					<span class="glyphicon glyphicon-eye-open" title="浏览量"> @Model.PostCount</span>
+				</span>
+				<span class=" pull-right">
+					<span class="glyphicon glyphicon-comment " title="评论">
+						@Html.Action("GetPostCommentsById", "UserPost", new { id = Model.PostId })
+						&nbsp;
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="container"><label>评论：</label></div>
+	</div>
+</div>
+<div class="container" id="post_show_content">
+	@Html.Action("GetPostCommentsAll", "UserPost", new { id = Model.PostId })
+</div>
+<div id="bottom-index" class="text-center"></div>
+@*滚动加载评论*@
+<script type="text/javascript">
+	//封装窗体滚动条事件
+	function getpost() {
+		var showimg = document.getElementById('bottom-index');
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		var winTop = window.innerHeight;
+		if (showimg.offsetTop < scrollTop + winTop) {
+
+			$.ajax({
+				url: "/UserPost/LanGetPostCommentsAll",
+				type: "get",
+				data: {"id":@Model.PostId},
+				success: function (e) {
+					if (e != "false") {
+						$("#post_show_content").append(e);
+					}
+					else {
+						$("#bottom-index").text("我可是有底线的( •̀ ω •́ )y");
+						window.removeEventListener("scroll", getpost, true);
+					}
+
+				}
+
+			});
+
+		}
+
+	}
+	window.onload = function () {
+		//添加 窗体滚动事件
+		window.addEventListener("scroll", getpost, true);
+	}
+	//帖子删除
+	function admin_remove(a, id) {
+		if (confirm("确定删除？")) {
+			//发起请求
+			$.ajax({
+				url: "/UserPost/DelPostByPostId",
+				type: "get",
+				data: { "id": id },
+				success: function (e) {
+					if (e == "true") {
+						alert("删除成功");
+						$(a).parent().parent().remove();
+					}
+				}
+			});
+		}
+
+	}
+</script>
+
+

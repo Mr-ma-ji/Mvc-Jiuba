@@ -1,0 +1,92 @@
+﻿@using JiuBa.Models
+@model List<Post>
+@{
+	ViewBag.Title = "用户帖子页面";
+	Layout = "~/Views/_UserIndexLayout.cshtml";
+}
+<div class="container" id="post_show_content">
+	@if (Model.Count > 0)
+	{
+		foreach (var x in Model)
+		{
+			<div onclick="xiangqing(@x.PostId)">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<div class="pull-right" onclick="user_shouchang(@x.PostId)"><span class="glyphicon glyphicon-bookmark pull-right"></span>添加收藏</div>
+						@Html.Action("GetUsersById", "UserPost", new { id = x.UserId })
+						 
+					</div>
+					<div class="panel-body">
+						<div>
+							<div id="postex_content">@x.PostText</div>
+						</div>
+					</div>
+					<hr />
+						@Html.Action("GetPostImgById", "UserPost", new { id = x.PostId })
+					<div class="panel-footer">
+						<div class="container-fluid">
+							<label class="pull-left">
+								分类:
+								@Html.Action("GetModelById", "UserPost", new { id = x.ModelId })
+								&nbsp;	&nbsp;	&nbsp;
+							</label>
+							<span class="pull-left">发布时间： @x.PostTime</span>
+							<span class=" pull-right">
+								<span class="glyphicon glyphicon-eye-open" title="浏览量"> @x.PostCount</span>
+							</span>
+							<span class=" pull-right">
+								<span class="glyphicon glyphicon-comment " title="评论">
+									@Html.Action("GetPostCommentsById", "UserPost", new { id = x.PostId })
+									&nbsp;
+								</span>
+							</span>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	}
+	else
+	{
+		<div class="text-center"><label>该用户还没有发布过帖子</label></div>
+	}
+</div>
+<div id="bottom-index" class="text-center"><span class="glyphicon glyphicon-globe">努力加载中</span></div>
+<script type="text/javascript">
+	//封装窗体滚动条事件
+	function getpost() {
+		var showimg = document.getElementById('bottom-index');
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		var winTop = window.innerHeight;
+		if (showimg.offsetTop < scrollTop + winTop) {
+
+			$.ajax({
+				url: "/UserPost/UserGetPostLanALL",
+				type: "get",
+				data: {"id":@ViewBag.id},
+				success: function (e) {
+					if (e != "false") {
+						$("#post_show_content").append(e);
+					}
+					else {
+						$("#bottom-index").text("我可是有底线的( •̀ ω •́ )y");
+						window.removeEventListener("scroll", getpost, true);
+					}
+
+				}
+
+			});
+
+		}
+
+	}
+	window.onload = function () {
+		//添加 窗体滚动事件
+		window.addEventListener("scroll", getpost, true);
+	}
+	//跳转详情页面
+	function xiangqing(id) {
+		window.location.href = "/UserPost/GetPostXaingQingById?id=" + id;
+	}
+</script>

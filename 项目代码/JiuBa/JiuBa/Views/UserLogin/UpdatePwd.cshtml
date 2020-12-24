@@ -1,0 +1,107 @@
+﻿@model JiuBa.Models.Users
+
+@{
+    ViewBag.Title = "修改密码";
+    Layout = "~/Views/_UserLoginLayout.cshtml";
+}
+
+	<div class="container">
+		<div class="col-lg-6 col-lg-offset-3">
+			<div class="form-group text-center ">
+				<h3>密码修改<span class="glyphicon glyphicon-asterisk"></span></h3>
+			</div>
+			@using (Html.BeginForm("UpdatePwd", "UserLogin", FormMethod.Post, new { @id = "form1" }))
+			{
+				<div class="form-group">
+					<label>邮箱</label>
+					<div class="input-group" id="text_mail">
+						<span class="input-group-addon glyphicon glyphicon-user" id="basic-addon1"></span>
+						@Html.TextBoxFor(x => x.UserAccount, new { @class = "form-control", @placeholder = "请输入您的邮箱" })
+						<a href="#" id="yantim" class="input-group-addon btn btn-default" onclick="yanzheng(this)">获取验证码</a>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>验证码</label>
+					<input id="Text1" name="Text1" type="text" placeholder="请输入验证码" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>密码</label>
+					@Html.TextBoxFor(x => x.UserPwd, new { @class = "form-control", @type = "password", @placeholder = "请输入密码" })
+				</div>
+				<div class="form-group">
+					<label>重复密码</label>
+					<input id="Password1" name="Password1" type="password" class="form-control" placeholder="请再次输入密码" />
+				</div>
+				<div class="form-group">
+					<input id="Submit1" type="submit" value="修改密码" class="form-control btn btn-success" />
+				</div>
+				<div class="form-group">
+					<a href="/User_index/Index" class="btn btn-link pull-left">前往首页登录>></a>
+					<a href="/UserLogin/Login" class="btn btn-link pull-right">账号注册>></a>
+				</div>
+			}
+		</div>
+
+	</div>
+	<script type="text/javascript">
+	//编写验证规则
+	$(function () {
+		$("#form1").validate({
+			rules: {
+				UserAccount: { required: true },//非空验证
+				UserPwd: { required: true },
+				Text1: { required: true },//非空验证
+				Password1: { equalTo: "#UserPwd" }
+
+			},
+			messages: {
+				UserAccount: { required: "账号不可以为空" },
+				UserPwd: { required: "密码不可以为空" },
+				Text1: { required: "请填写验证码" },
+				Password1: { equalTo: "两次密码输入不一致" }
+			}
+		});
+	});
+	//设置计时时间
+	var tmmer = 60;
+	//获取验证码
+	function yanzheng(a) {
+		if ($("#UserAccount").val() != "") {
+			//定义计时器
+			var t = null;
+			if ($(a).text() == "获取验证码") {
+				$.ajax({
+					url: "/UserLogin/UpdatePwdsendMail",
+					type: "post",
+					data: { email: $("#UserAccount").val() },
+					success: function (e) {
+						if (e == "格式可用") {
+							//设置计时
+							t = setInterval(function () {
+								//console.log(tmmer);
+								if (tmmer != 0) {
+									$("#yantim").text(tmmer + "秒后重新获取");
+									tmmer -= 1;
+								} else {
+									$("#yantim").text("获取验证码");
+									tmmer = 60;
+									clearTimeout(t);
+								}
+							}, 1000);
+						} else {
+							alert(e);
+						}
+					}
+				});
+			}
+		} else {
+			alert("请输入邮箱");
+		}
+	}
+	//判断账号是否正常注册
+	if ("@ViewBag.mes" != "") {
+		alert("@ViewBag.mes");
+	}
+
+	</script>
+

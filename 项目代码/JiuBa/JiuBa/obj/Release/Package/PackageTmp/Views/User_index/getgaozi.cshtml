@@ -1,0 +1,123 @@
+﻿@model JiuBa.Models.Post
+
+	<div class="modal fade" id="touGao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">发表贴子<span class="glyphicon glyphicon-pencil"></span>	</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group ">
+						@Html.TextAreaFor(x => x.PostText, new { @class = "form-control", @rows = 5, @cols = 40, @onkeypress = "return checkLength(this)" })
+					</div>
+					<div class="form-group">
+						<label>选择模块:</label>
+						@Html.DropDownListFor(x => x.ModelId, ViewBag.selectitem as List<SelectListItem>, new { @class = " form-control" })
+					</div>
+					<div class="form-group">
+						<label>选择图片:</label>
+						<label for="imglist" class="btn btn-success">上传图片</label>
+						<input id="imglist" type="file" class="hidden" onchange="yulanimg(this)"  multiple/>
+					</div>
+					<div class="container-fluid" id="yu">
+						@*图片预览区域*@
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" onclick="fabiao()" >发表</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="" ></div>
+<script type="text/javascript">
+	//输入内容判断
+	function checkLength(a) {
+		if (a.value.length >= 3000)
+			return false;
+	}
+	//图片预览
+	function yulanimg(f) {
+	
+		$("#yu").empty();
+	
+		var file = f.files;
+		console.log(file.length);
+		for (var i = 0; i < file.length; i++) {
+			var red = new FileReader();
+			//定义图片规则
+			var ImageFileExtend = ".gif,.png,.jpg,.ico,.bmp";
+			//获取图片后缀
+			var fileExtend = file[i].name.substring(file[i].name.lastIndexOf('.')).toLowerCase();
+			if (ImageFileExtend.indexOf(fileExtend) > -1) {
+				red.onload = function (e) {
+					var img = "<img src='" + e.target.result + "' class='img-rounded' width='100 %' height='100%' style='display: block;'/>";
+					var div2 = "	<div class='col-lg-3' style='height:100px;'>" + img+"</div>"
+					$("#yu").append(div2);
+				}
+				red.readAsDataURL(file[i]);
+			}
+			
+		}
+	}
+
+	function fabiao() {
+		//获取元素
+		var PostText = $("#PostText").val();
+		if (PostText != "") {
+			var ModelId = $("#ModelId").val();
+			var file = document.getElementById("imglist").files;
+			//发起请求上传文本
+			$.ajax({
+				url: "/User_index/gaozitext",
+				type: "post",
+				data: { "PostText": PostText, "ModelId": ModelId },
+				success: function (e) {
+					if (e == "上传失败") {
+						alert(e);
+					} else {
+						var fd = new FormData();
+						var time = e;
+						fd.append("time", time);
+						for (var i = 0; i < file.length; i++) {
+							//定义图片规则
+							var ImageFileExtend = ".gif,.png,.jpg,.ico,.bmp";
+							//获取图片后缀
+							var fileExtend = file[i].name.substring(file[i].name.lastIndexOf('.')).toLowerCase();
+							if (ImageFileExtend.indexOf(fileExtend) > -1) {
+								fd.append("flie", file[i]);
+					
+							} else {
+								alert("选择了一个不是图片的文件，该文件取消上传操作");
+							}
+						}
+					//发起请求上传图片
+						sendimg(fd);
+					}
+				}
+			});
+		} else {
+			alert("请填写一些内容");
+		}
+	}
+	//提交图片方法
+	function sendimg(fd) {
+		$.ajax({
+			url: "/User_index/gaoziimg",
+			type: "post",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function (a) {
+				if (a != "") {
+					alert(a);
+				} else {
+					alert("发表成功");
+					window.location.href = "/User_index/Index";
+				}
+			}
+		})
+	}
+</script>

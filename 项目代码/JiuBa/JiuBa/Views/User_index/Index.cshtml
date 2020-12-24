@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/_UserIndexLayout.cshtml";
+}
+
+
+	@Html.Action("GetPostALL","UserPost")
+
+ 
+<script type="text/javascript">
+    $("#userindex").attr("class", "active");
+</script>

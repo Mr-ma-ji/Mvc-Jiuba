@@ -1,0 +1,34 @@
+﻿/*解决页面跳动*/
+html, body {
+	height: 100%;
+	overflow: auto;
+	margin: 0;
+}
+
+html {
+	overflow-y: scroll;
+}
+
+
+body {
+	margin:0px;
+	padding:0px;
+}
+.nav-bottom-p{
+	color:white;
+	padding:20px;
+	text-align:center;
+}
+.field-validation-error {
+	color:red;
+}
+#login_center {
+	margin-top:50px;
+}
+
+ul, li {
+	list-style:none;
+}
+.admin_model_bottom {
+	height:500px;
+}

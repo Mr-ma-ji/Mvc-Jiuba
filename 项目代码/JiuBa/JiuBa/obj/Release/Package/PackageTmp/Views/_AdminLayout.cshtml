@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap.css" rel="stylesheet" />
+	<link href="~/Content/Admin.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-3.4.1.js"></script>
+	<script src="~/Scripts/bootstrap.js"></script>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+</head>
+<body>
+	@*顶部导航*@
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand"><span class=" glyphicon glyphicon-globe"></span> 玖吧 </a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+
+					@if (Session["Admin"] != null)
+					{
+						<li><a>@Session["AdminName"]</a></li>
+
+						<li><a href="/Admin/TuiChu">退出</a></li>
+						<li class="AdminIndex"> 
+							<a href="/Admin/Index" onclick="acti(this)" >帖子管理</a>
+						</li>
+						if (Session["AdminType"].ToString() == "0")
+						{
+							<li class="AdminAdminModel">
+								<a href="/Admin/AdminModel" onclick="acti(this)" >模块管理</a>
+							</li>
+							<li class="AdminUser"><a href="/Admin/AdminUser" onclick="acti(this)" >用户管理</a></li>
+							<li class="AdminAddAdmin"><a href="/Admin/AddAdmin"   onclick="acti(this)">管理员账号分配</a></li>
+						}
+					}
+					else
+					{
+						<li>	<a>@ViewBag.nav</a></li>
+					}
+				</ul>
+				<div class="navbar-right">
+					<a href="" class="navbar-brand" id="getshijian"></a>
+				</div>
+			</div>
+
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		@RenderBody()
+	</div>
+	<div class="container admin_model_bottom">
+
+	</div>
+	@*底部导航*@
+	<nav class="nav navbar-inverse">
+		<p class="nav-bottom-p">
+			版权归：223641889@qq.com所有<br />
+
+		</p>
+	</nav>
+	<script type="text/javascript">
+		//定义计时器
+		var time = setInterval(getshijian, 1000);
+		function getshijian() {
+			var datetime = new Date();
+			//获取当前时间
+			$("#getshijian").text(datetime.toLocaleString());
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+﻿@using JiuBa.Models
+@model List<Admins>
+<table class="table table-hover text-center">
+	<thead>
+		<tr>
+			<th class="text-center">昵称</th>
+			<th class="text-center">账号</th>
+			<th class="text-center">密码</th>
+			<th class="text-center">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var x in Model)
+		{
+
+			<tr>
+				<td>@x.AdminName</td>
+				<td>@x.AdminAccount</td>
+				<td>@x.AdminPwd</td>
+				<td><a href="#" class="btn btn-danger" onclick="deladmin(this,@x.AdminId)">删除</a></td>
+			</tr>
+
+		}
+	</tbody>
+</table>
+<script type="text/javascript">
+	function deladmin(a, id) {
+		if (confirm("确认删除？")) {
+			//获取当前行
+			var tr = $(a).parent().parent();
+			//发起请求
+			$.ajax({
+				url: "/Admin/delAdminById",
+				data: { "id": id },
+				type: "post",
+				success: function (e) {
+					//判断是否删除成功
+					if (e == "删除成功") {
+						alert(e);
+						$(tr).remove();
+					} else {
+						alert(e);
+					}
+
+				}
+			});
+		}
+	}
+</script>

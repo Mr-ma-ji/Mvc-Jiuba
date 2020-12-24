@@ -1,0 +1,17 @@
+﻿
+@{
+	ViewBag.Title = "管理员首页";
+	Layout = "~/Views/_AdminLayout.cshtml";
+	ViewBag.nav = "Admin";
+}
+
+
+	<div class="container">
+	
+		@Html.Action("AdminGetPostALL", "Admin")
+	</div>
+
+	<script type="text/javascript">
+	//导航选中样式
+		$(".AdminIndex").addClass("active");
+	</script>

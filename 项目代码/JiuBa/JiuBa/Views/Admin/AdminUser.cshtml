@@ -1,0 +1,110 @@
+﻿@using JiuBa.Models
+@model UsersListView
+@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+
+	<div class="container">
+		<h2>用户管理<span class="glyphicon glyphicon-folder-open"></span></h2>
+		<table class="table table-hover text-center">
+			<thead>
+				<tr>
+					<th class="text-center">Id</th>
+					<th class="text-center">昵称</th>
+					<th class="text-center">头像</th>
+					<th class="text-center">性别</th>
+					<th class="text-center">账号</th>
+					<th class="text-center">密码</th>
+					<th class="text-center">注册时间</th>
+					<th class="text-center">账号状态</th>
+					<th class="text-center">解封/封禁</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var x in Model.users)
+				{
+					<tr>
+						<td>@x.UserId</td>
+						<td>@x.UserName</td>
+						<td><img src="~/img/@x.UserImg"  class="img-thumbnail" style="width:50px;"/></td>
+						<td>@x.UserSex</td>
+						<td>@x.UserAccount</td>
+						<td>@x.UserPwd</td>
+						<td>@x.UsersTime</td>
+						<td>
+							@if (x.UsersEmail == "0")
+							{
+								@:正常
+							}
+							else
+							{
+								@:封禁中
+							}
+						</td>
+						<td>
+							<select id="Select1" class="form-control" onchange="updateuserstate(this,@x.UserId)">
+								@if (x.UsersEmail == "0")
+								{
+								<option value="0" selected="selected">解封</option>
+								<option value="1">封禁</option>
+								}
+								else
+								{
+							<option value="0">解封</option>
+							<option value="1" selected="selected">封禁</option>
+								}
+
+							</select>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="container-fluid">
+			<div class="pull-right btn-group">
+				@for (int i = 1; i <= Model.usersinfo; i++)
+				{
+					if (i == int.Parse(Session["userpageinfo"].ToString()))
+					{
+						<a href="/Admin/AdminUser?userpageinfo=@i" class="btn btn-default pageindex active">@i</a>
+					}
+					else
+					{
+						<a href="/Admin/AdminUser?userpageinfo=@i" class="btn btn-default pageindex">@i</a>
+					}
+
+				}
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+		//导航选中样式
+	$(".AdminUser").addClass("active");
+	//修改账号状态
+	function updateuserstate(a, id) {
+		if (confirm("请确认操作！！")) {
+			//获取状态单元格
+			var zd = $(a).parent().parent().children().get(7);
+			$.ajax({
+				url: "/Admin/AdminUpdateUser",
+				data: { "UserId": id, "UsersEmail": $(a).val() },
+				type: "post",
+				success: function (e) {
+					if (e == "修改成功") {
+						//事件成功回调
+						if ($(a).val() == "0") {
+							$(zd).text("正常");
+						} else {
+							$(zd).text("封禁中");
+						}
+					}
+					alert(e);
+					
+				}
+			});
+		}
+	}
+</script>
+

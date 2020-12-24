@@ -1,0 +1,57 @@
+﻿@using JiuBa.Models;
+@model List<PostCollection>
+@{
+	ViewBag.Title = "我的收藏";
+	Layout = "~/Views/_UserIndexLayout.cshtml";
+}
+
+@if (Model.Count() > 0)
+{
+	<div class="container" id="post_show_content">
+		@foreach (var x in Model)
+		{
+
+			@Html.Action("UserShouCangPostShow", "UserPost", new { id = @x.PostId })
+		}
+	</div>
+	<div id="bottom-index" class="text-center"><span class="glyphicon glyphicon-globe">努力加载中</span></div>
+}
+else
+{
+	<div class="text-center"><label>还没有收藏，赶快添加吧</label></div>
+}
+
+
+<script type="text/javascript">
+	//设置样式
+	$("#shouchang").attr("class", "active");
+	//封装窗体滚动条事件
+	function getpost() {
+		var showimg = document.getElementById('bottom-index');
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		var winTop = window.innerHeight;
+		if (showimg.offsetTop < scrollTop + winTop) {
+			$.ajax({
+				url: "/UserPost/UserShouCangPostALLLan",
+				type: "get",
+				success: function (e) {
+					if (e != "false") {
+						$("#post_show_content").append(e);
+					}
+					else {
+						$("#bottom-index").text("我可是有底线的( •̀ ω •́ )y");
+						window.removeEventListener("scroll", getpost, true);
+					}
+
+				}
+
+			});
+
+		}
+
+	}
+	window.onload = function () {
+		//添加 窗体滚动事件
+		window.addEventListener("scroll", getpost, true);
+	}
+</script>

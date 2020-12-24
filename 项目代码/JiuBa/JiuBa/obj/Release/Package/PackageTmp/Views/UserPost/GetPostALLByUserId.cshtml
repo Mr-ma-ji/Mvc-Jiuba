@@ -1,0 +1,109 @@
+﻿@using JiuBa.Models
+@model List<Post>
+@{
+	ViewBag.Title = "首页";
+	Layout = "~/Views/_UserIndexLayout.cshtml";
+}
+
+
+@if (Model.Count > 0)
+{<div class="container" id="post_show_content">
+		@foreach (var x in Model)
+		{
+
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<div class="pull-right" onclick="user_delpost(this,@x.PostId)"><span class="glyphicon glyphicon-trash pull-right"></span>删除</div>
+					@Html.Action("GetUsersById", "UserPost", new { id = x.UserId })
+				</div>
+				<div onclick="xiangqing(@x.PostId)">
+					<div class="panel-body">
+						<div>
+							<div id="postex_content">@x.PostText</div>
+						</div>
+					</div>
+					<hr />
+					@Html.Action("GetPostImgById", "UserPost", new { id = x.PostId })
+					<div class="panel-footer">
+						<div class="container-fluid">
+							<label class="pull-left">
+								分类:
+								@Html.Action("GetModelById", "UserPost", new { id = x.ModelId })
+								&nbsp;	&nbsp;	&nbsp;
+							</label>
+							<span class="pull-left">发布时间： @x.PostTime</span>
+							<span class=" pull-right">
+								<span class="glyphicon glyphicon-eye-open" title="浏览量"> @x.PostCount</span>
+							</span>
+							<span class=" pull-right">
+								<span class="glyphicon glyphicon-comment " title="评论">
+									@Html.Action("GetPostCommentsById", "UserPost", new { id = x.PostId })
+									&nbsp;
+								</span>
+							</span>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	<div id="bottom-index" class="text-center"><span class="glyphicon glyphicon-globe">努力加载中</span></div>
+}
+else
+{
+	<div class="text-center"><label>您还没有发布帖子呦( •̀ ω •́ )y</label></div>
+}
+
+
+<script type="text/javascript">
+	$("#wodetiez").attr("class", "active");
+	//封装窗体滚动条事件
+	function getpost() {
+		var showimg = document.getElementById('bottom-index');
+		var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+		var winTop = window.innerHeight;
+		if (showimg.offsetTop < scrollTop + winTop) {
+
+			$.ajax({
+				url: "/UserPost/GetPostALLByUserIdLan",
+				type: "get",
+				success: function (e) {
+					if (e != "false") {
+						$("#post_show_content").append(e);
+					}
+					else {
+						$("#bottom-index").text("我可是有底线的( •̀ ω •́ )y");
+						window.removeEventListener("scroll", getpost, true);
+					}
+
+				}
+
+			});
+
+		}
+
+	}
+	window.onload = function () {
+		//添加 窗体滚动事件
+		window.addEventListener("scroll", getpost, true);
+	}
+	function user_delpost(a, id) {
+		//删除成功回发
+		if (confirm("确定删除？")) {
+			//发起请求
+			$.ajax({
+				url: "/UserPost/DelPostByPostId",
+				type: "get",
+				data: { "id": id },
+				success: function (e) {
+					if (e == "true") {
+						alert("删除成功");
+						$(a).parent().parent().remove();
+					}
+				}
+			});
+		}
+	
+	}
+</script>

@@ -1,0 +1,68 @@
+﻿@model JiuBa.Models.Users
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">个人信息修改<span class="glyphicon glyphicon-pencil"></span></h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						@if (Model.UserSex == "男")
+						{
+							@Html.RadioButtonFor(x => x.UserSex, "男", new { @checked = "checked" })
+							@:男
+							@Html.RadioButtonFor(x => x.UserSex, "女")
+							@:女
+						}
+						else
+						{
+							@Html.RadioButtonFor(x => x.UserSex, "男")
+							@:男
+							@Html.RadioButtonFor(x => x.UserSex, "女", new { @checked = "checked" })
+							@:女
+						}
+					</div>
+					<div class="form-group ">
+						@Html.TextBoxFor(x=>x.UserName,new{@value=Model.UserName,@class= "form-control" })
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" onclick="xinxixiugai()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	function xinxixiugai() {
+		var a = document.getElementsByName("UserSex");
+		var UserSex;
+		//获取性别
+		for (var i = 0; i < a.length; i++) {
+			if (a[i].checked) {
+				UserSex = $(a[i]).val();
+			}
+		}
+		var UserName = $("#UserName").val();
+		if (UserName!="") {
+			//请求修改
+			$.ajax({
+				url: "/User_index/updatexinxi",
+				type: "post",
+				data: { "UserSex": UserSex, "UserName": UserName},
+				success: function (e) {
+					if (e == "true") {
+						window.location.href = "/User_index/Usergeren";
+					} else {
+						alert(e);
+					}
+				}
+			});
+		} else {
+			alert("请填写昵称");
+		}
+
+	}
+</script>

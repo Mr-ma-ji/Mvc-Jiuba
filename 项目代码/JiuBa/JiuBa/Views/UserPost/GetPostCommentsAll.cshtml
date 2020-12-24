@@ -1,0 +1,29 @@
+﻿@using JiuBa.Models;
+@model List<PostComments>
+@if (Model.Count() > 0)
+{
+	foreach (var x in Model)
+	{
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div>
+					@Html.Action("GetUsersById", "UserPost", new { id = x.UserId })
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>
+					@x.PostCommentsText
+				</p>
+			</div>
+			<div class="panel-footer">
+				<label>评论时间：@x.PostCommentsTime</label>
+			</div>
+		</div>
+	}
+}
+else
+{
+	<div id="bottom-index" class="text-center">
+		<span class="glyphicon glyphicon-globe">没有更多评论</span>
+	</div>
+}

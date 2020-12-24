@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="JiuBaModelStoreContainer" CdmEntityContainer="JiuBaEntities">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="JiuBaModel.Admins">
+        <MappingFragment StoreEntitySet="Admins">
+          <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+          <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+          <ScalarProperty Name="AdminAccount" ColumnName="AdminAccount" />
+          <ScalarProperty Name="AdminPwd" ColumnName="AdminPwd" />
+          <ScalarProperty Name="AdminType" ColumnName="AdminType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Model">
+      <EntityTypeMapping TypeName="JiuBaModel.Model">
+        <MappingFragment StoreEntitySet="Model">
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="ModelImg" ColumnName="ModelImg" />
+          <ScalarProperty Name="ModelTime" ColumnName="ModelTime" />
+          <ScalarProperty Name="ModelState" ColumnName="ModelState" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Post">
+      <EntityTypeMapping TypeName="JiuBaModel.Post">
+        <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="PostText" ColumnName="PostText" />
+          <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="PostCount" ColumnName="PostCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostBrowse">
+      <EntityTypeMapping TypeName="JiuBaModel.PostBrowse">
+        <MappingFragment StoreEntitySet="PostBrowse">
+          <ScalarProperty Name="PostBrowseId" ColumnName="PostBrowseId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="PostBrowseTime" ColumnName="PostBrowseTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostCollection">
+      <EntityTypeMapping TypeName="JiuBaModel.PostCollection">
+        <MappingFragment StoreEntitySet="PostCollection">
+          <ScalarProperty Name="PostCollectionId" ColumnName="PostCollectionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="PostCollectionTime" ColumnName="PostCollectionTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostComments">
+      <EntityTypeMapping TypeName="JiuBaModel.PostComments">
+        <MappingFragment StoreEntitySet="PostComments">
+          <ScalarProperty Name="PostCommentsId" ColumnName="PostCommentsId" />
+          <ScalarProperty Name="PostCommentsText" ColumnName="PostCommentsText" />
+          <ScalarProperty Name="PostCommentsTime" ColumnName="PostCommentsTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostCommentsLikes">
+      <EntityTypeMapping TypeName="JiuBaModel.PostCommentsLikes">
+        <MappingFragment StoreEntitySet="PostCommentsLikes">
+          <ScalarProperty Name="PostLikesId" ColumnName="PostLikesId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostCommentsId" ColumnName="PostCommentsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostImg">
+      <EntityTypeMapping TypeName="JiuBaModel.PostImg">
+        <MappingFragment StoreEntitySet="PostImg">
+          <ScalarProperty Name="PostImgId" ColumnName="PostImgId" />
+          <ScalarProperty Name="PostImgImages" ColumnName="PostImgImages" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostLikes">
+      <EntityTypeMapping TypeName="JiuBaModel.PostLikes">
+        <MappingFragment StoreEntitySet="PostLikes">
+          <ScalarProperty Name="PostLikesId" ColumnName="PostLikesId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="JiuBaModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserImg" ColumnName="UserImg" />
+          <ScalarProperty Name="UserSex" ColumnName="UserSex" />
+          <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+          <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+          <ScalarProperty Name="UsersTime" ColumnName="UsersTime" />
+          <ScalarProperty Name="UsersEmail" ColumnName="UsersEmail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

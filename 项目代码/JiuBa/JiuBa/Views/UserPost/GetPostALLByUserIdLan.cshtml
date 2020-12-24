@@ -1,0 +1,39 @@
+﻿@foreach (var x in Model)
+{
+
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<div class="pull-right" onclick="user_delpost(this,@x.PostId)"><span class="glyphicon glyphicon-trash pull-right"></span>删除</div>
+			@Html.Action("GetUsersById", "UserPost", new { id = x.UserId })
+		</div>
+		<div onclick="xiangqing(@x.PostId)">
+			<div class="panel-body">
+				<div>
+					<div id="postex_content">@x.PostText</div>
+				</div>
+			</div>
+			<hr />
+			@Html.Action("GetPostImgById", "UserPost", new { id = x.PostId })
+			<div class="panel-footer">
+				<div class="container-fluid">
+					<label class="pull-left">
+						分类:
+						@Html.Action("GetModelById", "UserPost", new { id = x.ModelId })
+						&nbsp;	&nbsp;	&nbsp;
+					</label>
+					<span class="pull-left">发布时间： @x.PostTime</span>
+					<span class=" pull-right">
+						<span class="glyphicon glyphicon-eye-open" title="浏览量"> @x.PostCount</span>
+					</span>
+					<span class=" pull-right">
+						<span class="glyphicon glyphicon-comment " title="评论">
+							@Html.Action("GetPostCommentsById", "UserPost", new { id = x.PostId })
+							&nbsp;
+						</span>
+					</span>
+
+				</div>
+			</div>
+		</div>
+	</div>
+}

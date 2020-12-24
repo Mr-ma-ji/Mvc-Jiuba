@@ -1,0 +1,14 @@
+﻿@using JiuBa.Models
+@model List<PostImg>
+@if (Model.Count() > 0)
+{
+	<div class="panel-body" id="posimg_content">
+		@foreach (var x in Model)
+		{
+		<div class="col-lg-3 col-sm-3 col-md-3">
+			<img src="~/img/@x.PostImgImages" class="posimg_style" style="width:100%;" height="200" />
+		</div>
+
+		}
+	</div>
+}

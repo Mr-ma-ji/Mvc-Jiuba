@@ -1,0 +1,144 @@
+﻿@model JiuBa.Models.AdminModelsList
+
+@{
+	ViewBag.Title = "模块管理";
+	Layout = "~/Views/_AdminLayout.cshtml";
+}
+
+	<div class=" container">
+		<div class="container-fluid">
+			<h2>添加模块<span class="glyphicon glyphicon-plus-sign"></span></h2>
+			<form action="/Admin/InsertModel" method="post" class="form" enctype="multipart/form-data">
+				<div class="form-group">
+					<label>名称</label>
+					<input id="ModelName" name="ModelName" type="text" class="form-control" placeholder="请输入模块名称" />
+				</div>
+				<div class="form-group">
+					<label>状态</label>
+					<select id="ModelState" name="ModelState" class="form-control" >
+						<option value="1">启用</option>
+						<option value="2">禁用</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>图片</label>
+					<img class="img-thumbnail" width="50" height="50" id="model_img_show"/>
+					<label class="btn btn-success"  for="ModelImg">上传图片</label>
+					<input id="ModelImg"  name="Img"  type="file" class="hidden"/>
+				</div>
+				<div class="form-group">
+					<input id="Submit1" type="submit" value="添加" class="btn btn-success form-control" />
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+			<h2>模块管理 <span class="glyphicon glyphicon-folder-open"></span></h2>
+		
+		<table class="table table-hover text-center">
+			<tr class="text-center">
+				<th class="text-center">模块ID</th>
+				<th class="text-center">名称</th>
+				<th class="text-center">图片</th>
+				<th class="text-center">最后操作时间</th>
+				<th class="text-center">模块状态</th>
+				<th class="text-center">状态修改</th>
+				<th class="text-center">删除</th>
+			</tr>
+			@foreach (var x in Model.models)
+			{
+				<tr>
+					<td>@x.ModelId</td>
+					<td>@x.ModelName</td>
+					<td><img src="~/img/@x.ModelImg" alt="" width="60" height="60" class="img-thumbnail" /></td>
+					<td>@x.ModelTime</td>
+					<td>
+						@if (x.ModelState == 1)
+						{
+							@:启用中
+						}
+						else
+						{
+							@:禁用中
+						}
+					</td>
+					<td>
+						<select id="model_zhauntai" class="form-control" onchange="modelstate(this,@x.ModelId)">
+							@if (x.ModelState == 1)
+							{
+								<option value="1" selected="selected">启用</option>
+								<option value="2">禁用</option>
+							}
+							else
+							{
+								<option value="1">启用</option>
+								<option value="2" selected="selected">禁用</option>
+							}
+						</select>
+					</td>
+					<td><a href="#" class="btn btn-danger" onclick="delmodel(this,@x.ModelId)">删除</a></td>
+				</tr>
+			}
+		</table>
+		<div class="btn-group pull-right">
+			@Html.PageLinks(Model.index, x => Url.Action("AdminModel", "Admin", new { pageinfo = x }))
+		</div>
+	</div>
+
+<script type="text/javascript">
+	//图片预览
+	$("#ModelImg").change(function () {
+		var file = this.files[0];
+		var red = new FileReader();
+		red.onload = function (e) {
+			$("#model_img_show").attr("src", e.target.result);
+		};
+		red.readAsDataURL(file);
+	});
+	//修改状态
+	function modelstate(a, id) {
+		//获取显示状态的单元格
+		var td = $(a).parent().parent().children().get(4);
+		//发送ajax请求
+		$.ajax({
+			url: "/Admin/UpdateModelStateById",
+			type: "post",
+			data: { "ModelState": $(a).val(), "ModelId": id },
+			success: function (e) {
+				if (e != "") {
+					alert(e);
+					//成功回调修改单元格的状态
+					if ($(a).val() == "1") {
+						$(td).text("启用中");
+					} else {
+						$(td).text("禁用中");
+					}
+				}
+			}
+		});
+
+	}
+	//删除模块
+	function delmodel(a, id) {
+		if (confirm("确定删除？")) {
+			//获取去所在的行
+			var tr = $(a).parent().parent();
+			//发送ajax请求
+			$.ajax({
+				url: "/Admin/DeleteById",
+				type: "post",
+				data: { "id": id },
+				success: function (e) {
+					if (e != "") {
+						//成功回调删除改行
+						$(tr).remove();
+					}
+				}
+			});
+		}
+	}
+	//导航选中样式
+	$(".AdminAdminModel").addClass("active");
+</script>
+
+

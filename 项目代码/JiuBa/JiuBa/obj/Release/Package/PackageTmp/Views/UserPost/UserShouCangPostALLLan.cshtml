@@ -1,0 +1,8 @@
+﻿@using JiuBa.Models;
+@model List<PostCollection>
+
+	@foreach (var x in Model)
+	{
+		@Html.Action("UserShouCangPostShow", "UserPost", new { id = @x.PostId })
+	}
+

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+
+	<link href="~/Content/UserLogin.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar-default" id="userbar">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand"><span class="glyphicon glyphicon-globe"></span>玖吧</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li id="userindex"><a href="/User_index/Index">首页</a></li>
+					@if (Session["user"] != null)
+					{
+						<li id="gerenzhongxin"><a href="/User_index/Usergeren">个人中心<span class="glyphicon glyphicon-user"></span></a></li>
+						<li id="shouchang"><a href="/UserPost/UserShouCangPostALL">我的收藏<span class="glyphicon glyphicon-bookmark"></span>	</a></li>
+						<li id="wodetiez"><a href="/UserPost/GetPostALLByUserId">我的贴子 <span class="glyphicon glyphicon-book"></span></a></li>
+					}
+				</ul>
+				<ul class="nav navbar-nav pull-right">
+					@if (Session["user"] == null)
+					{
+						<li id="userindex">
+							<a data-toggle="modal" data-target="#myModal">
+								登录
+							</a>
+							@Html.Action("UserLogin", "User_index")
+						</li>
+						<li id="userindex"><a href="/UserLogin/Login">注册</a></li>
+					}
+					else
+					{
+						<li>
+							<a href="/User_index/Usergeren">@Session["username"] </a>
+						</li>
+						<li><a href="/User_index/UserExit">退出</a></li>
+						<li>
+							<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#touGao">投稿</button>
+							@Html.Action("getgaozi", "User_index")
+						</li>
+					}
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+	
+	@*左边导航*@
+<div class="container-fluid">
+	<div class="col-lg-1 affix">
+		@Html.Action("PostModel", "UserPost")
+	</div>
+	<div class="container" style="height:100px;"></div>
+	@RenderBody()
+	<a href="#userbar" class="btn btn-default" id="huiding">回到顶部</a>
+</div>
+	<div id="nva-bottom">
+	</div>
+	<nav class="navbar-default" id="nva-bottom-box">
+		<div class="text-center container-fluid">
+			<h6>
+				版权归：2236418809@qq.com所有
+			</h6>
+		</div>
+	</nav>
+	<script type="text/javascript">
+		//跳转用户帖子页面
+		function user_post(id) {
+			window.location.href = "/UserPost/UserGetPostALL?id=" + id;
+		}
+		//用户添加收藏
+		function user_shouchang(id) {
+			$.ajax({
+				url: "/UserPost/user_shouchang",
+				type: "get",
+				data: { "id": id },
+				success: function (e) {
+					alert(e);
+				}
+			});
+		}
+		//跳转详情页面
+		function xiangqing(id) {
+			window.location.href = "/UserPost/GetPostXaingQingById?id=" + id;
+		}
+	</script>
+</body>
+</html>

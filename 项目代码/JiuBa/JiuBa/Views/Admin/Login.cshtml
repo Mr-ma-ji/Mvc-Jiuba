@@ -1,0 +1,36 @@
+﻿@model JiuBa.Models.Admins
+@{
+	ViewBag.Title = "管理员登录";
+	Layout = "~/Views/_AdminLayout.cshtml";
+	ViewBag.nav = "Admin Login....";
+}
+
+	<div class="container-fluid" id="login_center">
+		<div class="col-lg-4 col-lg-offset-4">
+			<div class="text-center"> 
+				<h3>Admin 登录 <span class="glyphicon glyphicon-pencil"></span></h3>
+			</div>
+			@using (Html.BeginForm("Login", "Admin", FormMethod.Post, new { @class = "" }))
+			{
+				<div class="form-group">
+					<label>账号<span class="glyphicon glyphicon-user"></span>	</label>
+					@Html.TextBoxFor(x => x.AdminAccount, new { @placeholder = "请输入管理员账号",@class="form-group form-control" })
+					@Html.ValidationMessageFor(x => x.AdminAccount)
+				</div>
+				<div class="form-group">
+					<label>密码<span class="glyphicon glyphicon-asterisk"></span>	</label>
+					@Html.TextBoxFor(x => x.AdminPwd, new { @placeholder = "请输入管理员密码", @type = "password",@class="form-group form-control" })
+					@Html.ValidationMessageFor(x => x.AdminPwd)
+				</div>
+				<div class="form-group">
+					<input id="Submit1" type="submit" value="登录"  class="btn btn-success form-control"/>
+				</div>
+			}
+		</div>
+	</div>
+	<script>
+	if ("@ViewBag.mess" != "") {
+		alert("@ViewBag.mess" );
+	}
+	</script>
+

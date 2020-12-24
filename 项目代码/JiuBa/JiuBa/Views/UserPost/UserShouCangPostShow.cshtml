@@ -1,0 +1,59 @@
+﻿@model JiuBa.Models.Post
+
+	<div class="panel panel-danger">
+		<div class="panel-heading">
+			<div class="pull-right" onclick="user_quxiao_shouchang(this,@Model.PostId)"><span class="glyphicon glyphicon-bookmark"></span>取消收藏</div>
+			@Html.Action("GetUsersById", "UserPost", new { id = Model.UserId })
+
+		</div>
+		<div onclick="xiangqing(@Model.PostId)">
+			<div class="panel-body">
+				<div>
+					<div id="postex_content">@Model.PostText</div>
+				</div>
+			</div>
+			<hr />
+			@Html.Action("GetPostImgById", "UserPost", new { id = Model.PostId })
+			<div class="panel-footer">
+				<div class="container-fluid">
+					<label class="pull-left">
+						分类:
+						@Html.Action("GetModelById", "UserPost", new { id = Model.ModelId })
+						&nbsp;	&nbsp;	&nbsp;
+					</label>
+					<span class="pull-left">发布时间： @Model.PostTime</span>
+					<span class=" pull-right">
+						<span class="glyphicon glyphicon-eye-open" title="浏览量"> @Model.PostCount</span>
+					</span>
+					<span class=" pull-right">
+						<span class="glyphicon glyphicon-comment " title="评论">
+							@Html.Action("GetPostCommentsById", "UserPost", new { id = Model.PostId })
+							&nbsp;
+						</span>
+					</span>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	function user_quxiao_shouchang(a, id) {
+		$.ajax({
+			url: "/UserPost/UserReomveShouCang",
+			type: "get",
+			data: { "id": id },
+			success: function (e) {
+				if (e == "true") {
+					//节点移除
+					$(a).parent().parent().remove();
+				}
+				else {
+					alert(e);
+				}
+
+			}
+
+		});
+	}
+</script>

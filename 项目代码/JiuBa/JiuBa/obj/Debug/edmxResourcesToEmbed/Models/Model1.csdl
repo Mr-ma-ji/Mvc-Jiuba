@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JiuBaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admins">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminPwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminType" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Model">
+    <Key>
+      <PropertyRef Name="ModelId" />
+    </Key>
+    <Property Name="ModelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ModelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModelImg" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ModelTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModelState" Type="Int32" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__Post__ModelId__15502E78" FromRole="Model" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="PostId" />
+    </Key>
+    <Property Name="PostId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostText" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="PostTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="ModelId" Type="Int32" />
+    <Property Name="PostCount" Type="Int32" />
+    <NavigationProperty Name="Model" Relationship="Self.FK__Post__ModelId__15502E78" FromRole="Post" ToRole="Model" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Post__UserId__145C0A3F" FromRole="Post" ToRole="Users" />
+    <NavigationProperty Name="PostBrowse" Relationship="Self.FK__PostBrows__PostI__1920BF5C" FromRole="Post" ToRole="PostBrowse" />
+    <NavigationProperty Name="PostCollection" Relationship="Self.FK__PostColle__PostI__1CF15040" FromRole="Post" ToRole="PostCollection" />
+    <NavigationProperty Name="PostComments" Relationship="Self.FK__PostComme__PostI__239E4DCF" FromRole="Post" ToRole="PostComments" />
+    <NavigationProperty Name="PostImg" Relationship="Self.FK__PostImg__PostId__49C3F6B7" FromRole="Post" ToRole="PostImg" />
+    <NavigationProperty Name="PostLikes" Relationship="Self.FK__PostLikes__PostI__276EDEB3" FromRole="Post" ToRole="PostLikes" />
+  </EntityType>
+  <EntityType Name="PostBrowse">
+    <Key>
+      <PropertyRef Name="PostBrowseId" />
+    </Key>
+    <Property Name="PostBrowseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PostId" Type="Int32" />
+    <Property Name="PostBrowseTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__PostBrows__PostI__1920BF5C" FromRole="PostBrowse" ToRole="Post" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__PostBrows__UserI__182C9B23" FromRole="PostBrowse" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="PostCollection">
+    <Key>
+      <PropertyRef Name="PostCollectionId" />
+    </Key>
+    <Property Name="PostCollectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PostId" Type="Int32" />
+    <Property Name="PostCollectionTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__PostColle__PostI__1CF15040" FromRole="PostCollection" ToRole="Post" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__PostColle__UserI__1BFD2C07" FromRole="PostCollection" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="PostComments">
+    <Key>
+      <PropertyRef Name="PostCommentsId" />
+    </Key>
+    <Property Name="PostCommentsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostCommentsText" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="PostCommentsTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PostId" Type="Int32" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__PostComme__PostI__239E4DCF" FromRole="PostComments" ToRole="Post" />
+    <NavigationProperty Name="PostCommentsLikes" Relationship="Self.FK__PostComme__PostC__2B3F6F97" FromRole="PostComments" ToRole="PostCommentsLikes" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__PostComme__UserI__22AA2996" FromRole="PostComments" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="PostCommentsLikes">
+    <Key>
+      <PropertyRef Name="PostLikesId" />
+    </Key>
+    <Property Name="PostLikesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PostCommentsId" Type="Int32" />
+    <NavigationProperty Name="PostComments" Relationship="Self.FK__PostComme__PostC__2B3F6F97" FromRole="PostCommentsLikes" ToRole="PostComments" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__PostComme__UserI__2A4B4B5E" FromRole="PostCommentsLikes" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="PostImg">
+    <Key>
+      <PropertyRef Name="PostImgId" />
+    </Key>
+    <Property Name="PostImgId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostImgImages" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="PostId" Type="Int32" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__PostImg__PostId__49C3F6B7" FromRole="PostImg" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="PostLikes">
+    <Key>
+      <PropertyRef Name="PostLikesId" />
+    </Key>
+    <Property Name="PostLikesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="PostId" Type="Int32" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__PostLikes__PostI__276EDEB3" FromRole="PostLikes" ToRole="Post" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__PostLikes__UserI__267ABA7A" FromRole="PostLikes" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserImg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserSex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserPwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UsersTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UsersEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Post" Relationship="Self.FK__Post__UserId__145C0A3F" FromRole="Users" ToRole="Post" />
+    <NavigationProperty Name="PostBrowse" Relationship="Self.FK__PostBrows__UserI__182C9B23" FromRole="Users" ToRole="PostBrowse" />
+    <NavigationProperty Name="PostCollection" Relationship="Self.FK__PostColle__UserI__1BFD2C07" FromRole="Users" ToRole="PostCollection" />
+    <NavigationProperty Name="PostComments" Relationship="Self.FK__PostComme__UserI__22AA2996" FromRole="Users" ToRole="PostComments" />
+    <NavigationProperty Name="PostCommentsLikes" Relationship="Self.FK__PostComme__UserI__2A4B4B5E" FromRole="Users" ToRole="PostCommentsLikes" />
+    <NavigationProperty Name="PostLikes" Relationship="Self.FK__PostLikes__UserI__267ABA7A" FromRole="Users" ToRole="PostLikes" />
+  </EntityType>
+  <Association Name="FK__Post__ModelId__15502E78">
+    <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Model">
+        <PropertyRef Name="ModelId" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="ModelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Post__UserId__145C0A3F">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostBrows__PostI__1920BF5C">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostBrowse" Type="Self.PostBrowse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="PostBrowse">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostColle__PostI__1CF15040">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostCollection" Type="Self.PostCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="PostCollection">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostComme__PostI__239E4DCF">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="PostComments">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostImg__PostId__49C3F6B7">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostImg" Type="Self.PostImg" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="PostImg">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostLikes__PostI__276EDEB3">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostId" />
+      </Principal>
+      <Dependent Role="PostLikes">
+        <PropertyRef Name="PostId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostBrows__UserI__182C9B23">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PostBrowse" Type="Self.PostBrowse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PostBrowse">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostColle__UserI__1BFD2C07">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PostCollection" Type="Self.PostCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PostCollection">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostComme__PostC__2B3F6F97">
+    <End Role="PostComments" Type="Self.PostComments" Multiplicity="0..1" />
+    <End Role="PostCommentsLikes" Type="Self.PostCommentsLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PostComments">
+        <PropertyRef Name="PostCommentsId" />
+      </Principal>
+      <Dependent Role="PostCommentsLikes">
+        <PropertyRef Name="PostCommentsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostComme__UserI__22AA2996">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PostComments" Type="Self.PostComments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PostComments">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostComme__UserI__2A4B4B5E">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PostCommentsLikes" Type="Self.PostCommentsLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PostCommentsLikes">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PostLikes__UserI__267ABA7A">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PostLikes" Type="Self.PostLikes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PostLikes">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JiuBaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admins" />
+    <EntitySet Name="Model" EntityType="Self.Model" />
+    <EntitySet Name="Post" EntityType="Self.Post" />
+    <EntitySet Name="PostBrowse" EntityType="Self.PostBrowse" />
+    <EntitySet Name="PostCollection" EntityType="Self.PostCollection" />
+    <EntitySet Name="PostComments" EntityType="Self.PostComments" />
+    <EntitySet Name="PostCommentsLikes" EntityType="Self.PostCommentsLikes" />
+    <EntitySet Name="PostImg" EntityType="Self.PostImg" />
+    <EntitySet Name="PostLikes" EntityType="Self.PostLikes" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK__Post__ModelId__15502E78" Association="Self.FK__Post__ModelId__15502E78">
+      <End Role="Model" EntitySet="Model" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Post__UserId__145C0A3F" Association="Self.FK__Post__UserId__145C0A3F">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostBrows__PostI__1920BF5C" Association="Self.FK__PostBrows__PostI__1920BF5C">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostBrowse" EntitySet="PostBrowse" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostColle__PostI__1CF15040" Association="Self.FK__PostColle__PostI__1CF15040">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostCollection" EntitySet="PostCollection" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostComme__PostI__239E4DCF" Association="Self.FK__PostComme__PostI__239E4DCF">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostComments" EntitySet="PostComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostImg__PostId__49C3F6B7" Association="Self.FK__PostImg__PostId__49C3F6B7">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostImg" EntitySet="PostImg" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostLikes__PostI__276EDEB3" Association="Self.FK__PostLikes__PostI__276EDEB3">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostLikes" EntitySet="PostLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostBrows__UserI__182C9B23" Association="Self.FK__PostBrows__UserI__182C9B23">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostBrowse" EntitySet="PostBrowse" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostColle__UserI__1BFD2C07" Association="Self.FK__PostColle__UserI__1BFD2C07">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostCollection" EntitySet="PostCollection" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostComme__PostC__2B3F6F97" Association="Self.FK__PostComme__PostC__2B3F6F97">
+      <End Role="PostComments" EntitySet="PostComments" />
+      <End Role="PostCommentsLikes" EntitySet="PostCommentsLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostComme__UserI__22AA2996" Association="Self.FK__PostComme__UserI__22AA2996">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostComments" EntitySet="PostComments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostComme__UserI__2A4B4B5E" Association="Self.FK__PostComme__UserI__2A4B4B5E">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostCommentsLikes" EntitySet="PostCommentsLikes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PostLikes__UserI__267ABA7A" Association="Self.FK__PostLikes__UserI__267ABA7A">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PostLikes" EntitySet="PostLikes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
